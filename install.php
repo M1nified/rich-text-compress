@@ -4,15 +4,15 @@ global $db_table;
 
  function create_tables(){
      global $wpdb;
-     $table = "CREATE TABLE `{$db_table}` (
-    `Id` int(11) NOT NULL AUTO_INCREMENT,
-    `Type` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
-    `Value` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
-    `WidgetId` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
-    PRIMARY KEY (`Id`),
-    UNIQUE KEY `Id_UNIQUE` (`Id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;";
-    $wpdb->query($table);
+     $tabquery = "CREATE TABLE `wp_rtc_content` (
+        `Id` int(11) NOT NULL AUTO_INCREMENT,
+        `Type` varchar(256) DEFAULT NULL,
+        `Value` longtext,
+        `WidgetId` varchar(256) DEFAULT NULL,
+        PRIMARY KEY (`Id`),
+        UNIQUE KEY `Id_UNIQUE` (`Id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;";
+    $wpdb->query($tabquery);
  }
  function install(){
     create_tables();
