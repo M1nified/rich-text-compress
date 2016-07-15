@@ -73,7 +73,7 @@ function load_editor($hook){
     // if ( 'widgets.php' != $hook ) {
     //     return;
     // }
-    echo '<div class="wrap" id="rich_text_compress_editor-container"><form id="rich_text_compress_editor-form" action="#">';
+    echo '<div class="wrap" id="rich_text_compress_editor-container" style="display:none;"><form id="rich_text_compress_editor-form" action="#">';
     wp_editor('','rich_text_compress_editor');
     ?>
     <input type="hidden" name="plugin_path" value="">
