@@ -13,5 +13,5 @@
     );
  }
 
- add_action('admin_menu','rich_text_compress\ssk_add_menu_settings');
+//  add_action('admin_menu','rich_text_compress\ssk_add_menu_settings');
 
