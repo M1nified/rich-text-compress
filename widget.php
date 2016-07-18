@@ -10,16 +10,29 @@ class rich_text_compress_widget extends \WP_Widget{
         );
     }
     public function widget($args,$instance){
+        // print_r($instance);
+        // print_r($args);
+        // print_r($GLOBALS['post']->ID);
         echo $args['before_widget'];
 		$title = get_title($instance);
         $output_title = get_output_title($instance);
+        $multiple_content = get_multiple_content($instance);
         $content_id = get_content_id($instance);
         global $wpdb;
         global $db_table;
-        $content = $wpdb->get_results("SELECT `value` FROM {$db_table} WHERE `Type`='content' AND `WidgetId` = '{$args['widget_id']}'");
-        $content = isset($content[0])?$content[0]->value:'';
+        $select = "SELECT `value` FROM `{$db_table}`
+            WHERE `Type`='content' AND `WidgetId` = '{$args['widget_id']}'";
+        if($multiple_content == 0){
+            // echo 1;
+            $content = $wpdb->get_results($select);
+        }else{
+            // echo 2;
+            // echo $select." AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%'";
+            $content = $wpdb->get_results($select." AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%'");
+        }
         // print_r($content);
-        if($output_title == 1){
+        $content = isset($content[0])?$content[0]->value:'';
+        if($output_title == 1 && $content != ''){
             echo $args['before_title'].$title.$args['after_title'];
         }
         echo $content;
@@ -28,6 +41,7 @@ class rich_text_compress_widget extends \WP_Widget{
     public function form($instance){
         $title = get_title($instance);
         $output_title = get_output_title($instance);
+        $multiple_content = get_multiple_content($instance);
         $content_id = get_content_id($instance);
         ?>
         <p>
@@ -40,6 +54,9 @@ class rich_text_compress_widget extends \WP_Widget{
         <p>
         <input class="widefat" id="<?php echo $this->get_field_id( 'output_title' ); ?>" name="<?php echo $this->get_field_name( 'output_title' ); ?>" type="checkbox" value="1" <?php echo ($output_title==true)?'checked':''; ?> />
         <label for="<?php echo $this->get_field_id( 'output_title' ); ?>"><?php _e( 'Output title' ); ?></label>
+
+        <input class="widefat" id="<?php echo $this->get_field_id( 'multiple_content' ); ?>" name="<?php echo $this->get_field_name( 'multiple_content' ); ?>" type="checkbox" value="1" <?php echo ($multiple_content==true)?'checked':''; ?> />
+        <label for="<?php echo $this->get_field_id( 'multiple_content' ); ?>"><?php _e( 'Multiple content' ); ?></label>
         </p>
         <input type="hidden" name="plugin_path" value="<?php echo plugin_dir_url( __FILE__ ); ?>">
         <?php

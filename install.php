@@ -4,14 +4,16 @@ global $db_table;
 
  function create_tables(){
      global $wpdb;
-     $tabquery = "CREATE TABLE `wp_rtc_content` (
-        `Id` int(11) NOT NULL AUTO_INCREMENT,
-        `Type` varchar(256) DEFAULT NULL,
-        `Value` longtext,
-        `WidgetId` varchar(256) DEFAULT NULL,
-        PRIMARY KEY (`Id`),
-        UNIQUE KEY `Id_UNIQUE` (`Id`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;";
+     $tabquery = "CREATE TABLE `{$db_table}` (
+    `Id` int(11) NOT NULL AUTO_INCREMENT,
+    `Type` varchar(256) DEFAULT NULL,
+    `Value` longtext,
+    `WidgetId` varchar(256) DEFAULT NULL,
+    `DisplayOn` mediumtext,
+    PRIMARY KEY (`Id`),
+    UNIQUE KEY `Id_UNIQUE` (`Id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+    ";
     $wpdb->query($tabquery);
  }
  function install(){

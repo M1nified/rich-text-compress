@@ -9,6 +9,9 @@ function get_title($instance){
 function get_output_title($instance){
     return isset($instance['output_title'])?$instance['output_title']:0;
 }
+function get_multiple_content($instance){
+    return isset($instance['multiple_content'])?$instance['multiple_content']:0;
+}
 function get_content_id($instance){
     return isset($instance['content'])?$instance['content']:'';;
 }

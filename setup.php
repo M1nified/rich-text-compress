@@ -1,17 +1,17 @@
 <?php namespace rich_text_compress; 
 
- function ssk_add_menu_settings(){
+ function add_menu_settings(){
     add_submenu_page(
-        'options-general.php',
-        'StatSoft Kursy',
-        'StatSoft Kursy',
+        'themes.php',
+        'Rich Text Compress',
+        'Rich Text Compress',
         'edit_pages',
-        'ssk_settings',
+        'rich_text_compress_settings',
         function(){
             include realpath(__DIR__.'/settings_page.php');
         }
     );
  }
 
-//  add_action('admin_menu','rich_text_compress\ssk_add_menu_settings');
+ add_action('admin_menu','rich_text_compress\add_menu_settings');
 
