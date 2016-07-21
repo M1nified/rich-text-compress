@@ -15,6 +15,8 @@ class rich_text_compress_widget extends \WP_Widget{
         // print_r($GLOBALS['post']->ID);
         echo $args['before_widget'];
 		$title = get_title($instance);
+        $hide = get_hide($instance);
+        if($hide == 1) return;
         $output_title = get_output_title($instance);
         $multiple_content = get_multiple_content($instance);
         $content_id = get_content_id($instance);
@@ -55,6 +57,11 @@ class rich_text_compress_widget extends \WP_Widget{
         <input class="widefat" id="<?php echo $this->get_field_id( 'output_title' ); ?>" name="<?php echo $this->get_field_name( 'output_title' ); ?>" type="checkbox" value="1" <?php echo ($output_title==true)?'checked':''; ?> />
         <label for="<?php echo $this->get_field_id( 'output_title' ); ?>"><?php _e( 'Output title' ); ?></label>
 
+        <input class="widefat" id="<?php echo $this->get_field_id( 'hide' ); ?>" name="<?php echo $this->get_field_name( 'hide' ); ?>" type="checkbox" value="1" <?php echo ($hide==true)?'checked':''; ?> />
+        <label for="<?php echo $this->get_field_id( 'hide' ); ?>"><?php _e( 'Hide' ); ?></label>
+        </p>
+
+        <p>
         <input class="widefat" id="<?php echo $this->get_field_id( 'multiple_content' ); ?>" name="<?php echo $this->get_field_name( 'multiple_content' ); ?>" type="checkbox" value="1" <?php echo ($multiple_content==true)?'checked':''; ?> />
         <label for="<?php echo $this->get_field_id( 'multiple_content' ); ?>"><?php _e( 'Multiple content' ); ?></label>
         </p>

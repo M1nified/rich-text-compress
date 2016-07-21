@@ -15,3 +15,6 @@ function get_multiple_content($instance){
 function get_content_id($instance){
     return isset($instance['content'])?$instance['content']:'';;
 }
+function get_hide($instance){
+    return isset($instance['hide'])?$instance['hide']:0;
+}
