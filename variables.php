@@ -1,6 +1,7 @@
 <?php namespace rich_text_compress;
 
 global $db_table;
+global $wpdb;
 $db_table = "{$wpdb->prefix}rtc_content";
 
 function get_title($instance){
