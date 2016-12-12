@@ -1,9 +1,9 @@
 <?php namespace rich_text_compress;
     
-global $db_table;
 
  function create_tables(){
      global $wpdb;
+     global $db_table;
      $tabquery = "CREATE TABLE `{$db_table}` (
     `Id` int(11) NOT NULL AUTO_INCREMENT,
     `Type` varchar(256) DEFAULT NULL,
