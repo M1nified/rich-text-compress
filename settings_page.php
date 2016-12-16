@@ -13,28 +13,30 @@ global $wpdb;
 global $db_table;
 
 // print_r($_POST);
-if($_POST['mode']==='edit' && $_POST['rtc_id'] != ''){
-    $display_on = "!".str_replace(",","!",$_POST['DisplayOn'])."!";
-    //Zapisywanie wprowadzonych zmian
-    echo 1;
-    $wpdb->update($db_table,[
-        'Value' => $_POST['content'],
-        'DisplayOn' => $display_on
-    ],[
-        'Id' => $_POST['rtc_id']
-    ]);
-}elseif($_POST['mode'] === 'add' && $_POST['WidgetId'] != ''){
-    $display_on = "!".preg_replace(",","!",$_POST['DisplayOn'])."!";
-    echo 2;
-    $wpdb->insert($db_table,[
-        'Type' => 'content',
-        'Value' => $_POST['content'],
-        'WidgetId' => $_POST['WidgetId'],
-        'DisplayOn' => $display_on
-    ]);
+if(isset($_POST['mode'])){
+    if($_POST['mode']==='edit' && $_POST['rtc_id'] != ''){
+        $display_on = "!".str_replace(",","!",$_POST['DisplayOn'])."!";
+        //Zapisywanie wprowadzonych zmian
+        echo 1;
+        $wpdb->update($db_table,[
+            'Value' => $_POST['content'],
+            'DisplayOn' => $display_on
+        ],[
+            'Id' => $_POST['rtc_id']
+        ]);
+    }elseif($_POST['mode'] === 'add' && $_POST['WidgetId'] != ''){
+        $display_on = "!".preg_replace(",","!",$_POST['DisplayOn'])."!";
+        echo 2;
+        $wpdb->insert($db_table,[
+            'Type' => 'content',
+            'Value' => $_POST['content'],
+            'WidgetId' => $_POST['WidgetId'],
+            'DisplayOn' => $display_on
+        ]);
+    }
 }
 
-$widget_id = $_GET['widget_id'];
+$widget_id = isset($_GET['widget_id']) ? $_GET['widget_id'] : null;
 $widgets = $wpdb->get_results("SELECT DISTINCT `WidgetId` FROM {$db_table} ORDER BY `WidgetId`");
 echo "<h1>Rich Text Compress</h1>";
 echo "<form method=\"GET\" action=\"#\">";

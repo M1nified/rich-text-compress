@@ -70,6 +70,18 @@ class rich_text_compress_widget extends \WP_Widget{
         <?php
     }
     public function update($new_instance,$old_instance){
+        if(!$old_instance){
+            global $db_table;
+            global $wpdb;
+            $wpdb->insert(
+                $db_table,
+                [
+                    'Type' => 'content',
+                    'WidgetId' => $this->id,
+                    'DisplayOn' => ''
+                ]
+            );
+        }
         return $new_instance;
     }
 }
