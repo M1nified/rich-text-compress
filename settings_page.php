@@ -14,12 +14,13 @@ global $db_table;
 
 // print_r($_POST);
 if(isset($_POST['mode'])){
+    $content = \stripslashes($_POST['content']);
     if($_POST['mode']==='edit' && $_POST['rtc_id'] != ''){
         $display_on = "!".str_replace(",","!",$_POST['DisplayOn'])."!";
         //Zapisywanie wprowadzonych zmian
         echo 1;
         $wpdb->update($db_table,[
-            'Value' => $_POST['content'],
+            'Value' => $content,
             'DisplayOn' => $display_on
         ],[
             'Id' => $_POST['rtc_id']
@@ -29,7 +30,7 @@ if(isset($_POST['mode'])){
         echo 2;
         $wpdb->insert($db_table,[
             'Type' => 'content',
-            'Value' => $_POST['content'],
+            'Value' => $content,
             'WidgetId' => $_POST['WidgetId'],
             'DisplayOn' => $display_on
         ]);
