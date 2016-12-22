@@ -12,6 +12,8 @@ global $wpdb;
 
 global $db_table;
 
+$widget_rtc_options = get_option('widget_rich_text_compress_widget');
+
 // print_r($_POST);
 if(isset($_POST['mode'])){
     $content = \stripslashes($_POST['content']);
@@ -45,7 +47,9 @@ echo "<p><b>Instance to edit: </b><select id=\"rtc-select-module\" name=\"module
 if($widget_id == '') echo '<option disabled selected></option>';
 foreach ($widgets as $key => $widget) {
     $selected = $widget->WidgetId === $widget_id ? 'selected' : '';
-    echo "<option value\"{$widget->WidgetId}\" {$selected}>{$widget->WidgetId}</option>";
+    $widget_number = str_replace('rich_text_compress_widget-','',$widget->WidgetId);
+    $title = isset($widget_rtc_options[$widget_number]) ? $widget_rtc_options[$widget_number]['title'] : NULL;
+    echo "<option value\"{$widget->WidgetId}\" {$selected}>{$widget->WidgetId} {$title}</option>";
 }
 echo '</select></p>';
 echo '</form>';
