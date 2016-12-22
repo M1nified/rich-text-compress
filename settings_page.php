@@ -49,7 +49,7 @@ foreach ($widgets as $key => $widget) {
     $selected = $widget->WidgetId === $widget_id ? 'selected' : '';
     $widget_number = str_replace('rich_text_compress_widget-','',$widget->WidgetId);
     $title = isset($widget_rtc_options[$widget_number]) ? $widget_rtc_options[$widget_number]['title'] : NULL;
-    echo "<option value\"{$widget->WidgetId}\" {$selected}>{$widget->WidgetId} {$title}</option>";
+    echo "<option value=\"{$widget->WidgetId}\" {$selected}>{$widget->WidgetId} {$title}</option>";
 }
 echo '</select></p>';
 echo '</form>';
