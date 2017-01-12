@@ -15,7 +15,6 @@ class rich_text_compress_widget extends \WP_Widget{
         // print_r($GLOBALS['post']->ID);
         $hide = get_hide($instance);
         if($hide == 1) return;
-        echo $args['before_widget'];
 		$title = get_title($instance);
         $output_title = get_output_title($instance);
         $multiple_content = get_multiple_content($instance);
@@ -35,10 +34,11 @@ class rich_text_compress_widget extends \WP_Widget{
         // print_r($content);
         $content = isset($content[0])?$content[0]->value:'';
         if($output_title == 1 && $content != ''){
+            echo $args['before_widget'];
             echo $args['before_title'].$title.$args['after_title'];
+            echo $content;
+            echo $args['after_widget'];
         }
-        echo $content;
-		echo $args['after_widget'];
     }
     public function form($instance){
         $title = get_title($instance);
