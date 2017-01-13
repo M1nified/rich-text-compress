@@ -33,9 +33,11 @@ class rich_text_compress_widget extends \WP_Widget{
         }
         // print_r($content);
         $content = isset($content[0])?$content[0]->value:'';
-        if($output_title == 1 && $content != ''){
+        if($content != ''){
             echo $args['before_widget'];
-            echo $args['before_title'].$title.$args['after_title'];
+            if($output_title == 1){
+                echo $args['before_title'].$title.$args['after_title'];
+            }
             echo $content;
             echo $args['after_widget'];
         }
