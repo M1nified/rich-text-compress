@@ -96,6 +96,7 @@ if($widget_id != ''){
 }
 ?>
 <div id="rtc-post-list-container" style="display:none;">
+    <div id="rtc-post-list-handler">
     <select multiple size="10" id="rtc-post-list" data-group-id="">
     <?php
     $pages_to_display_on = $wpdb->get_results("SELECT
@@ -109,6 +110,10 @@ if($widget_id != ''){
     }
     ?>
     </select>
+    <p>
+        <button type="button" id="rtc-post-list-btn-clear" class="button">Uncheck all</button>
+    </p>
+    </div>
 </div>
 <script type="text/javascript">
     jQuery("#rtc-select-module").on('change',function(){
@@ -127,7 +132,7 @@ if($widget_id != ''){
             var group_id = $(this).data('group-id');
             var list = $("#rtc-post-list");
             $(list).data('group-id',group_id);
-            $('.rtc-post-list-spot[data-group-id="'+group_id+'"]').append(list);
+            $('.rtc-post-list-spot[data-group-id="'+group_id+'"]').append($("#rtc-post-list-handler"));
             var listposts = $("#rtc-post-list>option");
             $(listposts).removeAttr('selected');
             var input_display = $('input.rtc-displayon[data-group-id="'+group_id+'"]');
@@ -145,12 +150,16 @@ if($widget_id != ''){
             var list = $(this).val();
             var group_id = $(this).data('group-id');
             var input_display = $('input.rtc-displayon[data-group-id="'+group_id+'"]');
-            $(input_display).first().val(list.join(','));
+            $(input_display).first().val(list ? list.join(',') : '');
         });
         $("select#rtc-post-list option").on('mousedown',function(evt){
             evt.preventDefault();
             $(this).prop('selected', $(this).prop('selected') ? false : true);
             return false;
+        });
+        $("#rtc-post-list-btn-clear").on('click',function(){
+            $("select#rtc-post-list option").removeAttr('selected');
+            $("select#rtc-post-list").trigger('change');
         });
     });
 </script>
