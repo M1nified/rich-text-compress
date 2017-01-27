@@ -112,7 +112,7 @@ if($widget_id != ''){
 </div>
 <script type="text/javascript">
     jQuery("#rtc-select-module").on('change',function(){
-        console.log(this)
+        // console.log(this)
         let search = location.search.replace(/[&?]widget_id=[^&#]*/im,'');
         location = location.origin + location.pathname + search + (search == '' ? '?' : '&') + 'widget_id=' + this.value;
     });
@@ -132,8 +132,8 @@ if($widget_id != ''){
             $(listposts).removeAttr('selected');
             var input_display = $('input.rtc-displayon[data-group-id="'+group_id+'"]');
             var page_ids = $(input_display).first().val().split(",");
-            console.log(input_display);
-            console.log(page_ids);
+            // console.log(input_display);
+            // console.log(page_ids);
             page_ids.forEach(function(pageid) {
                 if(pageid){
                     $(listposts).filter('[value='+pageid+']').attr('selected',true);
@@ -146,6 +146,11 @@ if($widget_id != ''){
             var group_id = $(this).data('group-id');
             var input_display = $('input.rtc-displayon[data-group-id="'+group_id+'"]');
             $(input_display).first().val(list.join(','));
+        });
+        $("select#rtc-post-list option").on('mousedown',function(evt){
+            evt.preventDefault();
+            $(this).prop('selected', $(this).prop('selected') ? false : true);
+            return false;
         });
     });
 </script>
