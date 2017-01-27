@@ -155,6 +155,7 @@ if($widget_id != ''){
         $("select#rtc-post-list option").on('mousedown',function(evt){
             evt.preventDefault();
             $(this).prop('selected', $(this).prop('selected') ? false : true);
+            $("select#rtc-post-list").trigger('change');
             return false;
         });
         $("#rtc-post-list-btn-clear").on('click',function(){
