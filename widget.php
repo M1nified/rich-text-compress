@@ -26,7 +26,7 @@ class rich_text_compress_widget extends \WP_Widget{
         if($multiple_content == 0){
             // echo 1;
             $content = $wpdb->get_results($select);
-        }else{
+        }elseif(isset($GLOBALS['post'])){
             // echo 2;
             // echo $select." AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%'";
             $content = $wpdb->get_results($select." AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%'");
