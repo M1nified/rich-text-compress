@@ -17,8 +17,18 @@ $widget_rtc_options = get_option('widget_rich_text_compress_widget');
 // print_r($_POST);
 if(isset($_POST['mode'])){
     $content = \stripslashes($_POST['content']);
+    if(isset($_POST['DisplayOn'])){
+        $display_on = $_POST['DisplayOn'];
+        $display_on_list = explode(',',$display_on);
+        $display_on = [];
+        foreach($display_on_list as $id){
+            $display_on[$id] = true;
+        }
+        $display_on = array_keys($display_on);
+        $display_on = '!'.implode('!',$display_on).'!';
+    }
     if($_POST['mode']==='edit' && $_POST['rtc_id'] != ''){
-        $display_on = "!".str_replace(",","!",$_POST['DisplayOn'])."!";
+        // $display_on = "!".str_replace(",","!",$_POST['DisplayOn'])."!";
         //Zapisywanie wprowadzonych zmian
         echo 1;
         $wpdb->update($db_table,[
@@ -28,7 +38,7 @@ if(isset($_POST['mode'])){
             'Id' => $_POST['rtc_id']
         ]);
     }elseif($_POST['mode'] === 'add' && $_POST['WidgetId'] != ''){
-        $display_on = "!".preg_replace(",","!",$_POST['DisplayOn'])."!";
+        // $display_on = "!".preg_replace(",","!",$_POST['DisplayOn'])."!";
         echo 2;
         $wpdb->insert($db_table,[
             'Type' => 'content',
