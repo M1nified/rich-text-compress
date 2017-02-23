@@ -15,8 +15,13 @@ global $db_table;
 $widget_rtc_options = get_option('widget_rich_text_compress_widget');
 
 // print_r($_POST);
-if(isset($_POST['mode'])){
-    $content = \stripslashes($_POST['content']);
+$mode = isset($_GET['mode']) ? $_GET['mode'] : null;
+$mode = isset($_POST['mode']) ? $_POST['mode'] : $mode;
+// var_dump($mode);
+if(isset($mode)){
+    if(isset($_POST['content'])){
+        $content = \stripslashes($_POST['content']);
+    }
     if(isset($_POST['DisplayOn'])){
         $display_on = $_POST['DisplayOn'];
         $display_on_list = explode(',',$display_on);
@@ -27,7 +32,7 @@ if(isset($_POST['mode'])){
         $display_on = array_keys($display_on);
         $display_on = '!'.implode('!',$display_on).'!';
     }
-    if($_POST['mode']==='edit' && $_POST['rtc_id'] != ''){
+    if($mode==='edit' && $_POST['rtc_id'] != ''){
         // $display_on = "!".str_replace(",","!",$_POST['DisplayOn'])."!";
         //Zapisywanie wprowadzonych zmian
         echo 1;
@@ -37,7 +42,7 @@ if(isset($_POST['mode'])){
         ],[
             'Id' => $_POST['rtc_id']
         ]);
-    }elseif($_POST['mode'] === 'add' && $_POST['WidgetId'] != ''){
+    }elseif($mode === 'add' && $_POST['WidgetId'] != ''){
         // $display_on = "!".preg_replace(",","!",$_POST['DisplayOn'])."!";
         echo 2;
         $wpdb->insert($db_table,[
@@ -46,6 +51,15 @@ if(isset($_POST['mode'])){
             'WidgetId' => $_POST['WidgetId'],
             'DisplayOn' => $display_on
         ]);
+    }elseif($mode === 'delete' && $_GET['item_id']){
+        global $db_table;
+        echo 3;
+        $wpdb->delete(
+            $db_table,
+            [
+                'Id'    =>  $_GET['item_id']
+            ]
+        );
     }
 }
 
@@ -82,7 +96,14 @@ if($widget_id != ''){
         $display_on = $widget->DisplayOn;
         $display_on = preg_replace('/(^,|,$)/','',str_replace("!",",",$display_on));
         echo "<p><label style=\"display:flex;align-items:center;\"><b>Display on: </b><input class=\"rtc-displayon\" type=\"text\" name=\"DisplayOn\" value=\"{$display_on}\" style=\"flex-grow:2;\" data-group-id=\"{$uniqid}\"></label></p>";
-        echo "<p><button type=\"button\" class=\"button button-primary rtc-change-list\" data-group-id=\"{$uniqid}\">Select pages</button></p>";
+        echo "<p>";
+        echo "<button type=\"button\" class=\"button button-primary rtc-change-list\" data-group-id=\"{$uniqid}\">Select pages</button>";
+        $url_delete = add_query_arg([
+            'mode'      =>  'delete',
+            'item_id'   =>  $widget->Id
+        ]);
+        echo " <a href=\"{$url_delete}\" class=\"button\">Remove</a>";
+        echo "</p>";
         echo "<p class=\"rtc-post-list-spot\" data-group-id=\"{$uniqid}\"></p>";
         echo "<p><input type=\"submit\" class=\"button button-primary widget-control-save right\"></p><div class=\"clear\"></div>";
         echo "<input type=\"hidden\" name=\"rtc_id\" value=\"{$widget->Id}\">";
