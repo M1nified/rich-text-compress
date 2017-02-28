@@ -85,9 +85,11 @@ if($widget_id != ''){
     WHERE WidgetId = '{$widget_id}' AND `Type` = 'content'");
     // print_r($widgets);
     foreach ($widgets as $key => $widget) {
+        $widget_number = str_replace('rich_text_compress_widget-','',$widget->WidgetId);
         $uniqid = uniqid();
         echo "<form method=\"POST\" action=\"#\">";
-        // echo "<h3>{$widget->WidgetId}</h3>";
+        echo "<h3>({$widget_number}) ({$widget->Id})</h3>";
+        echo "<p>wp_rtc_content-&gt;id = {$widget->Id}<p>";
         echo '<p>';
         wp_editor($widget->Value,'content-'.$widget->Id,[
             "textarea_name" => 'content'
