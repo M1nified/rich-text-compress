@@ -11,6 +11,8 @@
 
  include_once(realpath(__DIR__.'/install.php'));
 
+ include_once(realpath(__DIR__.'/meta-boxes.php'));
+
  include_once(realpath(__DIR__.'/setup.php'));
 
  include_once(realpath(__DIR__.'/widget.php'));
