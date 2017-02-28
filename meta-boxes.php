@@ -35,6 +35,9 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
         print("<p><label><input type=\"checkbox\" name=\"rtc-row-to-remove-from[]\" value=\"{$widget->Id}\">{$title} ({$widget_number}) ({$widget->Id})</label></p>");
     }
     print("</div>");
+    print("<div><p><b>Add wp_rtc_content id</b></p>");
+    print("<p><input type=\"text\" name=\"rtc-row-to-add-to\" placeholder=\"Id\"></p>");
+    print("</div>");
  }
 
  function metabox_save($post_id){
@@ -56,6 +59,14 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
         $wpdb->query("UPDATE {$db_table}
             SET DisplayOn = replace(DisplayOn,'{$post_id}!','')
             WHERE Id in ($ids);
+        ");
+    }
+    if( isset( $_POST[ 'rtc-row-to-add-to' ] )){
+        global $wpdb;
+        global $db_table;
+        $wpdb->query("UPDATE {$db_table}
+            SET DisplayOn = CONCAT(DisplayOn,'{$post_id}!')
+            WHERE Id = {$_POST[ 'rtc-row-to-add-to' ]};
         ");
     }
 
