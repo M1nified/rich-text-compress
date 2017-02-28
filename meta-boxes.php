@@ -61,7 +61,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
             WHERE Id in ($ids);
         ");
     }
-    if( isset( $_POST[ 'rtc-row-to-add-to' ] )){
+    if( isset( $_POST[ 'rtc-row-to-add-to' ] ) && $_POST[ 'rtc-row-to-add-to' ] != ''){
         global $wpdb;
         global $db_table;
         $wpdb->query("UPDATE {$db_table}
