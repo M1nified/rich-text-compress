@@ -65,9 +65,12 @@ if(isset($mode)){
 
 $widget_id = isset($_GET['widget_id']) ? $_GET['widget_id'] : null;
 $widgets = $wpdb->get_results("SELECT DISTINCT `WidgetId` FROM {$db_table} ORDER BY `WidgetId`");
+$content_filter = isset($_GET['content_filter']) ? $_GET['content_filter'] : '';
 echo "<h1>Rich Text Compress</h1>";
 echo "<form method=\"GET\" action=\"#\">";
-echo "<p><b>Instance to edit: </b><select id=\"rtc-select-module\" name=\"module_id\">";
+echo "<input type=\"hidden\" name=\"page\" value=\"{$_GET['page']}\">";
+echo "<p><b>Content filter: </b><input type=\"text\" name=\"content_filter\" value=\"{$content_filter}\" placeholder=\"Optional content filter\"></p>";
+echo "<p><b>Instance to edit: </b><select id=\"rtc-select-module\" name=\"widget_id\">";
 if($widget_id == '') echo '<option disabled selected></option>';
 foreach ($widgets as $key => $widget) {
     $selected = $widget->WidgetId === $widget_id ? 'selected' : '';
@@ -76,13 +79,14 @@ foreach ($widgets as $key => $widget) {
     echo "<option value=\"{$widget->WidgetId}\" {$selected}>{$widget->WidgetId} {$title}</option>";
 }
 echo '</select></p>';
-echo '</form>';
+echo '<p><input type="submit" class="button button-primary" value="Go to"></p>';
+echo '</form><hr>';
 if($widget_id != ''){
     echo "<h2>Edit: {$widget_id}</h2>";
     echo '<a href="#rtc_add" class="button">Add new content</a>';
     $widgets = $wpdb->get_results("SELECT `Id`,`Type`,`Value`,`WidgetId`,`DisplayOn`
     FROM {$db_table}
-    WHERE WidgetId = '{$widget_id}' AND `Type` = 'content'");
+    WHERE WidgetId = '{$widget_id}' AND `Type` = 'content' AND `Value` LIKE '%{$content_filter}%';");
     // print_r($widgets);
     foreach ($widgets as $key => $widget) {
         $widget_number = str_replace('rich_text_compress_widget-','',$widget->WidgetId);
@@ -151,8 +155,8 @@ if($widget_id != ''){
 <script type="text/javascript">
     jQuery("#rtc-select-module").on('change',function(){
         // console.log(this)
-        let search = location.search.replace(/[&?]widget_id=[^&#]*/im,'');
-        location = location.origin + location.pathname + search + (search == '' ? '?' : '&') + 'widget_id=' + this.value;
+        // let search = location.search.replace(/[&?]widget_id=[^&#]*/im,'');
+        // location = location.origin + location.pathname + search + (search == '' ? '?' : '&') + 'widget_id=' + this.value;
     });
 </script>
 <script>
