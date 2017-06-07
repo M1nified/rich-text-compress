@@ -21,19 +21,19 @@ class rich_text_compress_widget extends \WP_Widget{
         $content_id = get_content_id($instance);
         global $wpdb;
         global $db_table;
-        $select = "SELECT `value` FROM `{$db_table}`
-            WHERE `Type`='content' AND `WidgetId` = '{$args['widget_id']}'";
         if($multiple_content == 0){
             // echo 1;
-            $content = $wpdb->get_results($select);
+            $content = $wpdb->get_var("SELECT `value` FROM `{$db_table}`
+                WHERE `Type`='content' AND `WidgetId` = '{$args['widget_id']}' LIMIT 1");
         }elseif(isset($GLOBALS['post'])){
             // echo 2;
             // echo $select." AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%'";
-            $content = $wpdb->get_results($select." AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%'");
+            $content = $wpdb->get_var("SELECT `value` FROM `{$db_table}`
+                WHERE `Type`='content' AND `WidgetId` = '{$args['widget_id']}' AND `DisplayOn` LIKE '%!{$GLOBALS['post']->ID}!%' LIMIT 1");
         }
         // print_r($content);
-        $content = isset($content[0])?$content[0]->value:'';
-        if($content != ''){
+        // $content = isset($content[0])?$content[0]->value:'';
+        if(isset($content) && $content != null && $content != ''){
             echo $args['before_widget'];
             // echo '<section>';
             if($output_title == 1){
