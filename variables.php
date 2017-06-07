@@ -1,4 +1,5 @@
 <?php namespace rich_text_compress;
+  defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 global $db_table;
 global $wpdb;
@@ -18,4 +19,8 @@ function get_content_id($instance){
 }
 function get_hide($instance){
     return isset($instance['hide'])?$instance['hide']:0;
+}
+
+function get_master_widgets($instance){
+    return array_key_exists('widgets', $instance) && is_array($instance['widgets']) ? $instance['widgets'] : [];
 }

@@ -13,6 +13,7 @@ global $wpdb;
 global $db_table;
 
 $widget_rtc_options = get_option('widget_rich_text_compress_widget');
+// print_r($widget_rtc_options);
 
 // print_r($_POST);
 $mode = isset($_GET['mode']) ? $_GET['mode'] : null;
@@ -60,6 +61,25 @@ if(isset($mode)){
                 'Id'    =>  $_GET['item_id']
             ]
         );
+    }elseif($mode === 'apply_titles'){
+        global $db_table;
+        echo 4;
+        foreach ($widget_rtc_options as $widget_id => $widget_options) {
+            // print_r($widget_options);
+            $widget_widget_id = "rich_text_compress_widget-{$widget_id}";
+            $exists = $wpdb->get_var("SELECT count(`Value`) FROM `{$db_table}` WHERE Type = 'title' AND WidgetId = '$widget_widget_id';");
+            echo $exists;
+            if($exists != 0) continue;
+            $wpdb->insert(
+                $db_table,
+                [
+                    'Type' => 'title',
+                    'Value' => $widget_options['title'],
+                    'WidgetId' => $widget_widget_id,
+                    'DisplayOn' => null
+                ]
+            );
+        }
     }
 }
 
