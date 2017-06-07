@@ -34,7 +34,7 @@ class RichTextCompressMasterWidget extends \WP_Widget{
           AND t1.WidgetId in ({$widget_ids_str})
         ;";
         $possible_widgets = $wpdb->get_results($query);
-        echo sizeof($possible_widgets);
+        // echo sizeof($possible_widgets);
         // echo "<pre>"; print_r($possible_widgets); echo "</pre>";
         foreach($widget_ids as $full_id)
         {
